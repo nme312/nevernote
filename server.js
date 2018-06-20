@@ -1,5 +1,14 @@
 const express = require("express");
 const path = require("path");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const db = require("./models");
+const PORT = process.env.PORT || 3001;
+const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -10,10 +19,12 @@ if (process.env.NODE_ENV === "production") {
 
 // Send every request to the React app
 // Define any API routes before this runs
-app.get("*", function(req, res) {
+app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
-app.listen(PORT, function() {
+mongoose.connect(process.env.MONGODDB_URL || "mongodb://prod:357159Nme.@ds163630.mlab.com:63630/heroku_0cjm748w");
+
+app.listen(PORT, function () {
   console.log(`🌎 ==> Server now on port ${PORT}!`);
 });
